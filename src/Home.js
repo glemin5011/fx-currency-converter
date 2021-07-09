@@ -14,6 +14,9 @@ class Home extends React.Component {
           </div>
         </div>
         <Converter />
+        <div className="row">
+          <h1 className="text-center mt-2">f(x) = USD x EUR</h1>
+        </div>
       </div>
     );
   }
