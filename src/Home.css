@@ -1,0 +1,18 @@
+.row-wrapper {
+  box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+  border-radius: 12px;
+}
+
+.currency-converter-icon {
+  width: 40px;
+  height: 40px;
+  border: black !important;
+  border-width: 1px !important;
+}
+
+@media (min-width: 576px) {
+  .currency-converter-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
