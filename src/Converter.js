@@ -12,9 +12,6 @@ class Converter extends React.Component {
       leftCurrency: "USD",
       exchangeAmount: 0,
       rate: 0,
-      img: {
-        USD: USD,
-      },
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -66,10 +63,10 @@ class Converter extends React.Component {
                 aria-expanded="false"
               >
                 <img
-                  src={leftCurrency}
+                  src={USD}
                   className="currency-converter-icon d-inline border border-dark"
                 ></img>
-                <h2 className="d-inline-block align-middle ml-2">
+                <h2 className="d-inline-block align-middle ml-4">
                   {leftCurrency}
                 </h2>
               </a>
