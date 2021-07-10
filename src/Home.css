@@ -10,6 +10,11 @@
   border-width: 1px !important;
 }
 
+.dropdown-menu {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
 @media (min-width: 576px) {
   .currency-converter-icon {
     width: 60px;
