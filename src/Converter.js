@@ -28,8 +28,7 @@ class Converter extends React.Component {
 
   componentDidMount() {
     this.fetchCurrencies();
-    this.fetchRates(this.state.leftCurrency); //initial fetch
-    console.log(this.state.rate);
+    this.fetchRates(this.state.leftCurrency); //initial fetch of rates
   }
 
   fetchCurrencies() {
@@ -60,16 +59,21 @@ class Converter extends React.Component {
         conversionResult: "",
       });
       return;
+    } else if (this.state.leftCurrency === this.state.rightCurrency) {
+      this.setState({
+        exchangeAmount: event.target.value,
+        conversionResult: event.target.value,
+      });
+    } else {
+      const conversionResult = this.conversionCalculator(
+        input,
+        this.state.rate.rates[this.state.rightCurrency]
+      ).toFixed(3);
+      this.setState({
+        exchangeAmount: input,
+        conversionResult,
+      });
     }
-    const conversionResult = this.conversionCalculator(
-      input,
-      this.state.rate.rates[this.state.rightCurrency]
-    ).toFixed(3);
-    console.log(conversionResult);
-    this.setState({
-      exchangeAmount: input,
-      conversionResult,
-    });
   }
 
   conversionCalculator(amount, exchangeRate) {
@@ -186,7 +190,7 @@ class Converter extends React.Component {
               <input
                 className="form-control form-control-lg my-4"
                 type="number"
-                placeholder="$1.00"
+                placeholder="1.00"
                 onChange={this.handleChange}
                 value={this.state.exchangeAmount}
               />
