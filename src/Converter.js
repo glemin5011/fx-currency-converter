@@ -1,6 +1,4 @@
 import React from "react";
-
-import eu from "./country-logos/EUR.png";
 import { eventListeners } from "@popperjs/core";
 import { json, checkStatus } from "./utils";
 import Currencies from "./Currencies";
