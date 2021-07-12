@@ -12,7 +12,7 @@ class Converter extends React.Component {
       currencies: [],
       leftCurrency: "USD",
       rightCurrency: "EUR",
-      exchangeAmount: 1,
+      exchangeAmount: 0,
       rate: [],
       conversionResult: 0,
     };
@@ -28,7 +28,7 @@ class Converter extends React.Component {
 
   componentDidMount() {
     this.fetchCurrencies();
-    this.fetchRates(); //initial fetch
+    this.fetchRates(this.state.leftCurrency); //initial fetch
   }
 
   fetchCurrencies() {
@@ -40,17 +40,14 @@ class Converter extends React.Component {
       });
   }
 
-  fetchRates() {
-    const { leftCurrency, rightCurrency } = this.state;
-    fetch(
-      `https://altexchangerateapi.herokuapp.com/latest?from=${leftCurrency}&to=${rightCurrency}`
-    )
+  fetchRates(base) {
+    fetch(`https://altexchangerateapi.herokuapp.com/latest?from=${base}`)
       .then(checkStatus)
       .then(json)
       .then((response) => {
         this.setState({ rate: response });
         console.log(response);
-        console.log(Object.values(this.state.rate.rates));
+        console.log(this.state.rate.rates);
       });
   }
 
@@ -59,19 +56,25 @@ class Converter extends React.Component {
     if (Number.isNaN(input)) {
       this.setState({
         exchangeAmount: "",
+        conversionResult: "",
       });
       return;
+    } else if (this.state.leftCurrency === this.state.rightCurrency) {
+      this.setState({
+        input,
+        conversionResult: 1 * input,
+      });
+    } else {
+      const conversionResult = this.conversionCalculator(
+        input,
+        this.state.rate.rates[this.state.rightCurrency]
+      ).toFixed(3);
+      console.log(conversionResult);
+      this.setState({
+        exchangeAmount: input,
+        conversionResult,
+      });
     }
-
-    const conversionResult = this.conversionCalculator(
-      input,
-      Object.values(this.state.rate.rates)
-    ).toFixed(3);
-    console.log(conversionResult);
-    this.setState({
-      exchangeAmount: input,
-      conversionResult,
-    });
   }
 
   conversionCalculator(amount, exchangeRate) {
@@ -80,11 +83,10 @@ class Converter extends React.Component {
 
   dropdownSelectLeft(event) {
     this.setState({ leftCurrency: event.target.value });
-    this.fetchRates();
+    this.fetchRates(event.target.value); // API call for all rates to base currency
   }
   dropdownSelectRight(event) {
     this.setState({ rightCurrency: event.target.value });
-    this.fetchRates();
   }
   /*swapCurrencies() {
     let { newRight, newLeft } = "";
