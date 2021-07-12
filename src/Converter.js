@@ -1,6 +1,6 @@
 import React from "react";
-import USD from "./country-logos/usa.png";
-import eu from "./country-logos/eu.png";
+
+import eu from "./country-logos/EUR.png";
 import { eventListeners } from "@popperjs/core";
 import { json, checkStatus } from "./utils";
 import Currencies from "./Currencies";
@@ -85,10 +85,15 @@ class Converter extends React.Component {
     this.fetchRates(event.target.value); // API call for all rates to base currency
   }
   dropdownSelectRight(event) {
+    const { exchangeAmount } = this.state;
     this.setState({ rightCurrency: event.target.value });
+    const conversionResult = this.conversionCalculator(
+      exchangeAmount,
+      this.state.rate.rates[event.target.value]
+    ).toFixed(3);
     this.setState({
-      exchangeAmount: "",
-      conversionResult: "",
+      exchangeAmount,
+      conversionResult,
     });
   }
   /*swapCurrencies() {
@@ -118,7 +123,10 @@ class Converter extends React.Component {
                 aria-expanded="false"
               >
                 <img
-                  src={USD}
+                  src={
+                    require(`./country-logos/${this.state.leftCurrency}.png`)
+                      .default
+                  }
                   className="currency-converter-icon d-inline border border-dark"
                 ></img>
                 <h2 className="d-inline-block align-middle ml-4">
@@ -151,7 +159,10 @@ class Converter extends React.Component {
                 aria-expanded="false"
               >
                 <img
-                  src={eu}
+                  src={
+                    require(`./country-logos/${this.state.rightCurrency}.png`)
+                      .default
+                  }
                   className="currency-converter-icon d-inline border border-dark"
                 ></img>
                 <h2 className="d-inline-block align-middle ml-2 text-center">
