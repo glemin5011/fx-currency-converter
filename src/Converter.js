@@ -3,6 +3,7 @@ import USD from "./country-logos/usa.png";
 import eu from "./country-logos/eu.png";
 import { eventListeners } from "@popperjs/core";
 import { json, checkStatus } from "./utils";
+import Currencies from "./Currencies";
 
 class Converter extends React.Component {
   constructor(props) {
@@ -10,21 +11,24 @@ class Converter extends React.Component {
     this.state = {
       currencies: [],
       leftCurrency: "USD",
-      exchangeAmount: 0,
-      rate: 0,
+      rightCurrency: "EUR",
+      exchangeAmount: 1,
+      rate: [],
+      conversionResult: 0,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.fetchCurrencies = this.fetchCurrencies.bind(this);
-    this.dropdownSelect = this.dropdownSelect.bind(this);
+    this.dropdownSelectLeft = this.dropdownSelectLeft.bind(this);
+    this.dropdownSelectRight = this.dropdownSelectRight.bind(this);
+    //this.swapCurrencies = this.swapCurrencies.bind(this);
+    this.fetchRates = this.fetchRates.bind(this);
+    this.conversionCalculator = this.conversionCalculator.bind(this);
   }
 
   componentDidMount() {
     this.fetchCurrencies();
-  }
-
-  selectCurrency(event) {
-    event.preventDefault();
+    this.fetchRates(); //initial fetch
   }
 
   fetchCurrencies() {
@@ -36,16 +40,62 @@ class Converter extends React.Component {
       });
   }
 
-  handleChange(event) {
-    this.setState({ exchangeAmount: event.target.value });
+  fetchRates() {
+    const { leftCurrency, rightCurrency } = this.state;
+    fetch(
+      `https://altexchangerateapi.herokuapp.com/latest?from=${leftCurrency}&to=${rightCurrency}`
+    )
+      .then(checkStatus)
+      .then(json)
+      .then((response) => {
+        this.setState({ rate: response });
+        console.log(response);
+        console.log(Object.values(this.state.rate.rates));
+      });
   }
 
-  dropdownSelect(event) {
-    this.setState({ leftCurrency: event.target.value });
+  handleChange(event) {
+    const input = parseFloat(event.target.value);
+    if (Number.isNaN(input)) {
+      this.setState({
+        exchangeAmount: "",
+      });
+      return;
+    }
+
+    const conversionResult = this.conversionCalculator(
+      input,
+      Object.values(this.state.rate.rates)
+    ).toFixed(3);
+    console.log(conversionResult);
+    this.setState({
+      exchangeAmount: input,
+      conversionResult,
+    });
   }
+
+  conversionCalculator(amount, exchangeRate) {
+    return amount * exchangeRate;
+  }
+
+  dropdownSelectLeft(event) {
+    this.setState({ leftCurrency: event.target.value });
+    this.fetchRates();
+  }
+  dropdownSelectRight(event) {
+    this.setState({ rightCurrency: event.target.value });
+    this.fetchRates();
+  }
+  /*swapCurrencies() {
+    let { newRight, newLeft } = "";
+    newRight = this.state.leftCurrency;
+    newLeft = this.state.rightcurrency;
+    console.log(newLeft);
+    this.setState({ rightcurrency: newRight, leftCurrency: newLeft });
+  }*/
 
   render() {
-    const { currencies, leftCurrency } = this.state;
+    const { currencies, leftCurrency, rightCurrency } = this.state;
     const currencyCodes = Object.keys(currencies);
     const currencyNames = Object.values(currencies);
 
@@ -71,22 +121,17 @@ class Converter extends React.Component {
                 </h2>
               </a>
               <ul
-                className="dropdown-menu dropdown-menu-start"
+                className="dropdown-menu dropdown-menu-start mt-2"
                 aria-labelledby="dropdownMenuLink"
               >
                 {currencyCodes.map((codes, i) => (
-                  <li>
-                    <button
-                      type="button"
-                      className="dropdown-item"
-                      key={i}
-                      href="#"
-                      value={codes}
-                      onClick={this.dropdownSelect}
-                    >
-                      {codes} - {currencyNames[i]}
-                    </button>
-                  </li>
+                  <Currencies
+                    i={i}
+                    key={i}
+                    codes={codes}
+                    currencyNames={currencyNames}
+                    onClick={this.dropdownSelectLeft}
+                  />
                 ))}
               </ul>
             </div>
@@ -105,34 +150,32 @@ class Converter extends React.Component {
                   className="currency-converter-icon d-inline border border-dark"
                 ></img>
                 <h2 className="d-inline-block align-middle ml-2 text-center">
-                  EUR
+                  {rightCurrency}
                 </h2>
               </a>
               <ul
-                className="dropdown-menu dropdown-menu-end"
+                className="dropdown-menu dropdown-menu-end mt-2"
                 aria-labelledby="dropdownMenuLink"
               >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Item 1
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Item 2
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Item 3
-                  </a>
-                </li>
+                {currencyCodes.map((codes, i) => (
+                  <Currencies
+                    i={i}
+                    key={i}
+                    codes={codes}
+                    currencyNames={currencyNames}
+                    onClick={this.dropdownSelectRight}
+                  />
+                ))}
               </ul>
             </div>
           </div>
           <div className="row my-2">
             <div className="col-4 mx-auto my-2 text-center">
-              <button type="button" className="btn btn-primary btn-xl-lg">
+              <button
+                type="button"
+                className="btn btn-primary btn-xl-lg"
+                onClick={this.swapCurrencies}
+              >
                 Swap
               </button>
             </div>
@@ -144,13 +187,16 @@ class Converter extends React.Component {
                 type="number"
                 placeholder="$1.00"
                 onChange={this.handleChange}
+                value={this.state.exchangeAmount}
               />
             </div>
             <div className="col text-center">
               <input
                 className="form-control form-control-lg my-4 disabled"
                 type="number"
-                placeholder="0"
+                placeholder=""
+                value={this.state.conversionResult}
+                readOnly={true}
               />
             </div>
           </div>

@@ -1,26 +1,23 @@
-/*const Currencies = (props) => {
-  const { currencyCodes, currencyNames } = props.currencies;
+import React from "react";
+
+const Currencies = (props) => {
+  const { i, codes, currencyNames, onClick } = props;
   return (
-    <ul
-      className="dropdown-menu dropdown-menu-start"
-      aria-labelledby="dropdownMenuLink"
-    >
-      {currencyCodes.map((codes, i) => (
-        <li>
-          <button
-            type="button"
-            className="dropdown-item"
-            key={i}
-            href="#"
-            value={codes}
-          >
-            {codes} - {currencyNames[i]}
-          </button>
-        </li>
-      ))}
-    </ul>
+    <React.Fragment>
+      <li>
+        <button
+          type="button"
+          className="dropdown-item"
+          key={i}
+          href="#"
+          value={codes}
+          onClick={onClick}
+        >
+          {codes} - {currencyNames[i]}
+        </button>
+      </li>
+    </React.Fragment>
   );
 };
 
 export default Currencies;
-*/
