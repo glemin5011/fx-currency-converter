@@ -21,7 +21,7 @@ class Converter extends React.Component {
     this.fetchCurrencies = this.fetchCurrencies.bind(this);
     this.dropdownSelectLeft = this.dropdownSelectLeft.bind(this);
     this.dropdownSelectRight = this.dropdownSelectRight.bind(this);
-    //this.swapCurrencies = this.swapCurrencies.bind(this);
+    this.swapCurrencies = this.swapCurrencies.bind(this);
     this.fetchRates = this.fetchRates.bind(this);
     this.conversionCalculator = this.conversionCalculator.bind(this);
   }
@@ -83,7 +83,12 @@ class Converter extends React.Component {
   dropdownSelectLeft(event) {
     this.setState({ leftCurrency: event.target.value });
     this.fetchRates(event.target.value); // API call for all rates to base currency
+    this.setState({
+      exchangeAmount: "",
+      conversionResult: "",
+    });
   }
+
   dropdownSelectRight(event) {
     const { exchangeAmount } = this.state;
     this.setState({ rightCurrency: event.target.value });
@@ -96,13 +101,19 @@ class Converter extends React.Component {
       conversionResult,
     });
   }
-  /*swapCurrencies() {
+  swapCurrencies() {
     let { newRight, newLeft } = "";
     newRight = this.state.leftCurrency;
-    newLeft = this.state.rightcurrency;
-    console.log(newLeft);
-    this.setState({ rightcurrency: newRight, leftCurrency: newLeft });
-  }*/
+    newLeft = this.state.rightCurrency;
+    console.log(newLeft, newRight);
+    this.setState({
+      rightCurrency: newRight,
+      leftCurrency: newLeft,
+      exchangeAmount: "",
+      conversionResult: "",
+    });
+    this.fetchRates(newLeft);
+  }
 
   render() {
     const { currencies, leftCurrency, rightCurrency } = this.state;
