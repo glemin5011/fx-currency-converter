@@ -12,9 +12,9 @@ class Converter extends React.Component {
       currencies: [],
       leftCurrency: "USD",
       rightCurrency: "EUR",
-      exchangeAmount: 0,
+      exchangeAmount: "",
       rate: [],
-      conversionResult: 0,
+      conversionResult: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -29,6 +29,7 @@ class Converter extends React.Component {
   componentDidMount() {
     this.fetchCurrencies();
     this.fetchRates(this.state.leftCurrency); //initial fetch
+    console.log(this.state.rate);
   }
 
   fetchCurrencies() {
@@ -59,22 +60,16 @@ class Converter extends React.Component {
         conversionResult: "",
       });
       return;
-    } else if (this.state.leftCurrency === this.state.rightCurrency) {
-      this.setState({
-        input,
-        conversionResult: 1 * input,
-      });
-    } else {
-      const conversionResult = this.conversionCalculator(
-        input,
-        this.state.rate.rates[this.state.rightCurrency]
-      ).toFixed(3);
-      console.log(conversionResult);
-      this.setState({
-        exchangeAmount: input,
-        conversionResult,
-      });
     }
+    const conversionResult = this.conversionCalculator(
+      input,
+      this.state.rate.rates[this.state.rightCurrency]
+    ).toFixed(3);
+    console.log(conversionResult);
+    this.setState({
+      exchangeAmount: input,
+      conversionResult,
+    });
   }
 
   conversionCalculator(amount, exchangeRate) {
@@ -87,6 +82,10 @@ class Converter extends React.Component {
   }
   dropdownSelectRight(event) {
     this.setState({ rightCurrency: event.target.value });
+    this.setState({
+      exchangeAmount: "",
+      conversionResult: "",
+    });
   }
   /*swapCurrencies() {
     let { newRight, newLeft } = "";
