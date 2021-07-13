@@ -39,7 +39,7 @@ class CurrencyTables extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchRates(this.state.baseCurrency); //initial fetch of rates
+    //this.fetchRates(this.state.baseCurrency); //initial fetch of rates
     this.fetchCurrencies();
   }
 
@@ -52,8 +52,6 @@ class CurrencyTables extends React.Component {
     const { currencies, baseCurrency } = this.state;
     const currencyCodes = Object.keys(currencies);
     const currencyNames = Object.values(currencies);
-    const exchangeRates = Object.values(this.state.rate);
-    console.log(exchangeRates);
 
     return (
       <div className="container my-4 row-wrapper">
@@ -81,7 +79,6 @@ class CurrencyTables extends React.Component {
                   key={i}
                   codes={codes}
                   currencyNames={currencyNames}
-                  rate={exchangeRates[codes]}
                   onClick={this.dropdownSelect}
                 />
               ))}
@@ -92,7 +89,12 @@ class CurrencyTables extends React.Component {
           <div className="col-6">
             <ul>
               {currencyCodes.map((codes, i) => (
-                <CurrencyLists i={i} key={i} codes={codes} />
+                <CurrencyLists
+                  i={i}
+                  key={i}
+                  codes={codes}
+                  rate={this.state.rate}
+                />
               ))}
             </ul>
           </div>

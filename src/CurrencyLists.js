@@ -10,14 +10,7 @@ const CurrencyLists = (props) => {
             src={require(`./country-logos/${codes}.png`).default}
             className="currency-lists-icon d-inline mx-2"
           ></img>
-          {codes}:{" "}
-          {(() => {
-            if (rate !== undefined) {
-              return rate;
-            } else {
-              return <span>Loading...</span>;
-            }
-          })()}
+          {codes}: {rate}
         </p>
       </li>
     </React.Fragment>
