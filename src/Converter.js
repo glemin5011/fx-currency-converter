@@ -136,7 +136,7 @@ class Converter extends React.Component {
                     require(`./country-logos/${this.state.leftCurrency}.png`)
                       .default
                   }
-                  className="currency-converter-icon d-inline border border-dark"
+                  className="currency-converter-icon d-inline"
                 ></img>
                 <h2 className="d-inline-block align-middle ml-4">
                   {leftCurrency}
@@ -172,7 +172,7 @@ class Converter extends React.Component {
                     require(`./country-logos/${this.state.rightCurrency}.png`)
                       .default
                   }
-                  className="currency-converter-icon d-inline border border-dark"
+                  className="currency-converter-icon d-inline"
                 ></img>
                 <h2 className="d-inline-block align-middle ml-2 text-center">
                   {rightCurrency}

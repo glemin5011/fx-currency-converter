@@ -6,10 +6,11 @@
 .currency-converter-icon {
   width: 30px;
   height: 30px;
-  border: black !important;
-  border-width: 1px !important;
 }
-
+.currency-lists-icon {
+  width: 25px;
+  height: 25px;
+}
 .dropdown-menu {
   max-height: 280px;
   overflow-y: auto;
