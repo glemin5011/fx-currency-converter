@@ -10,6 +10,7 @@ class CurrencyTables extends React.Component {
       baseCurrency: "USD",
       currencies: [],
       rate: [],
+      isLoading: true,
     };
     this.dropdownSelect = this.dropdownSelect.bind(this);
     this.fetchCurrencies = this.fetchCurrencies.bind(this);
@@ -21,7 +22,7 @@ class CurrencyTables extends React.Component {
       .then(checkStatus)
       .then(json)
       .then((response) => {
-        this.setState({ rate: response });
+        this.setState({ rate: response, isLoading: false });
         console.log(response);
         console.log(this.state.rate.rates);
       });
@@ -50,12 +51,10 @@ class CurrencyTables extends React.Component {
   }
 
   render() {
-    const { currencies, baseCurrency, rate } = this.state;
+    const { currencies, baseCurrency, isLoading } = this.state;
     const currencyCodes = Object.keys(currencies);
     console.log(currencyCodes);
     const currencyNames = Object.values(currencies);
-    const exchangeRate = rate.rates;
-    console.log(exchangeRate);
 
     return (
       <div className="container my-4 row-wrapper">
@@ -92,9 +91,19 @@ class CurrencyTables extends React.Component {
         <div className="row">
           <div className="col-6">
             <ul>
-              {currencyCodes.map((codes, i) => (
-                <CurrencyLists i={i} key={i} codes={codes} />
-              ))}
+              {isLoading ? (
+                <h1>Loading...</h1>
+              ) : (
+                currencyCodes.map((codes, i) => (
+                  <CurrencyLists
+                    i={i}
+                    key={i}
+                    codes={codes}
+                    rate={this.state.rate.rates}
+                    baseCurrency={baseCurrency}
+                  />
+                ))
+              )}
             </ul>
           </div>
           <div className="col-6">

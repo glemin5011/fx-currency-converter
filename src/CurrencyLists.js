@@ -1,7 +1,7 @@
 import React from "react";
 
 const CurrencyLists = (props) => {
-  const { i, codes, rate } = props;
+  const { i, codes, rate, baseCurrency } = props;
   return (
     <React.Fragment>
       <li key={i}>
@@ -10,7 +10,7 @@ const CurrencyLists = (props) => {
             src={require(`./country-logos/${codes}.png`).default}
             className="currency-lists-icon d-inline mx-2"
           ></img>
-          {codes}
+          {codes} : {rate[codes]}
         </p>
       </li>
     </React.Fragment>
