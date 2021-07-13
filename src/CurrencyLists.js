@@ -10,7 +10,7 @@ const CurrencyLists = (props) => {
             src={require(`./country-logos/${codes}.png`).default}
             className="currency-lists-icon d-inline mx-2"
           ></img>
-          {codes}: {rate}
+          {codes}
         </p>
       </li>
     </React.Fragment>
