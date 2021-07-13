@@ -1,0 +1,37 @@
+.row-wrapper {
+  box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+  border-radius: 12px;
+}
+a {
+  color: black;
+}
+.currency-converter-icon {
+  width: 30px;
+  height: 30px;
+}
+.currency-lists-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.dropdown-menu {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+#github-button {
+  background-color: #6e5494;
+  border: 1px solid #282828;
+  color: white;
+}
+#linkedin-button {
+  background-color: #0072b1;
+  border: 1px solid #282828;
+  color: white;
+}
+@media (min-width: 576px) {
+  .currency-converter-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
