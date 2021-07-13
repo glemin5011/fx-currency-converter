@@ -6,7 +6,9 @@ class Navbar extends React.Component {
       <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light border-bottom">
         <div className="container-fluid">
           <a className="navbar-brand ms-3" href="#">
-            <h1>f(x)</h1>
+            <h1>
+              <b>f(x)</b>
+            </h1>
           </a>
           <button
             className="navbar-toggler"
@@ -22,19 +24,24 @@ class Navbar extends React.Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item me-4">
-                <h3 className="nav-link me-3" aria-current="page" href="#">
-                  Home
-                </h3>
+                <a className="nav-link" aria-current="page" href="#">
+                  <h3 className="me-4">Home</h3>
+                </a>
               </li>
               <li className="nav-item me-4">
-                <h3 className="nav-link me-3" href="#">
-                  Link
-                </h3>
+                <a
+                  className="nav-link"
+                  aria-current="page"
+                  href="https://condescending-jang-046576.netlify.app/"
+                  target="_blank"
+                >
+                  <h3 className="me-4">Portfolio Page</h3>
+                </a>
               </li>
               <li className="nav-item me-4">
-                <h3 className="nav-link me-3" href="#">
-                  Disabled
-                </h3>
+                <a className="nav-link" aria-current="page" href="#contact">
+                  <h3 className="me-4">Contact</h3>
+                </a>
               </li>
             </ul>
           </div>

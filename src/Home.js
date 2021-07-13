@@ -11,7 +11,7 @@ class Home extends React.Component {
           <div className="row">
             <div className="col mx-auto">
               <h1 className="text-center mt-2">
-                Get accurate currency exchange rates fast.
+                Get accurate <b>currency exchange rates</b> fast.
               </h1>
             </div>
           </div>
@@ -21,7 +21,7 @@ class Home extends React.Component {
           <div className="row">
             <div className="col mx-auto">
               <h1 className="text-center mt-4 pt-4">
-                Daily coverage of 33 currencies
+                Daily coverage of <b>33 currencies.</b>
               </h1>
             </div>
             <CurrencyTables />

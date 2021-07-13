@@ -61,19 +61,20 @@ class CurrencyTables extends React.Component {
         <div className="row mx-auto">
           <div className="col-12 col-xl-4 mx-auto mt-4">
             <a
-              className="dropdown-toggle"
+              className=""
               href="#"
               role="button"
               id="dropdownMenuLink"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <h4 className="d-inline-block mx-auto">
+              <h4 className="d-inline-block mx-auto fw-bold">
                 Exchange rates for 1 {baseCurrency}
               </h4>
+              <i className="fas fa-chevron-down ms-2"></i>
             </a>
             <ul
-              className="dropdown-menu dropdown-menu-start mt-2"
+              className="dropdown-menu mt-2"
               aria-labelledby="dropdownMenuLink"
             >
               {currencyCodes.map((codes, i) => (
