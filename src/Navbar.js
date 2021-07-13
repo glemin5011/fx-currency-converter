@@ -6,7 +6,9 @@ class Navbar extends React.Component {
       <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light border-bottom">
         <div className="container-fluid">
           <a className="navbar-brand ms-3" href="#">
-            <h1>f(x)</h1>
+            <h1>
+              <b>f(x)</b>
+            </h1>
           </a>
           <button
             className="navbar-toggler"

@@ -138,7 +138,7 @@ class Converter extends React.Component {
                   }
                   className="currency-converter-icon d-inline"
                 ></img>
-                <h2 className="d-inline-block align-middle ms-2">
+                <h2 className="d-inline-block align-middle ms-2 fw-bold">
                   {leftCurrency}
                 </h2>
                 <i className="fas fa-chevron-down ms-2"></i>
@@ -175,7 +175,7 @@ class Converter extends React.Component {
                   }
                   className="currency-converter-icon d-inline"
                 ></img>
-                <h2 className="d-inline-block align-middle ms-2 text-center">
+                <h2 className="d-inline-block align-middle ms-2 text-center fw-bold">
                   {rightCurrency}
                 </h2>
                 <i className="fas fa-chevron-down ms-2"></i>

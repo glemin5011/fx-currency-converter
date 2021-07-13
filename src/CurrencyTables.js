@@ -68,7 +68,7 @@ class CurrencyTables extends React.Component {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <h4 className="d-inline-block mx-auto">
+              <h4 className="d-inline-block mx-auto fw-bold">
                 Exchange rates for 1 {baseCurrency}
               </h4>
               <i className="fas fa-chevron-down ms-2"></i>
