@@ -7,7 +7,9 @@ const Footer = () => {
             <p className="text-muted">Place sticky footer content here.</p>
           </div>
           <div className="col-2">
-            <button className="btn btn-primary">GitHub</button>
+            <a className="btn">
+              <i className="fab fa-github">GitHub</i>
+            </a>
           </div>
         </div>
       </div>

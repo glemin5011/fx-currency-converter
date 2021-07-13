@@ -90,7 +90,7 @@ class CurrencyTables extends React.Component {
         </div>
         <div className="row my-3">
           {isLoading ? (
-            <h1>Loading...</h1>
+            <h1 className="text-center mx-auto my-auto">Loading...</h1>
           ) : (
             currencyCodes.map((codes, i) => (
               <CurrencyLists
