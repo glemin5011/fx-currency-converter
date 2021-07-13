@@ -58,8 +58,8 @@ class CurrencyTables extends React.Component {
 
     return (
       <div className="container my-4 row-wrapper">
-        <div className="row">
-          <div className="col-6 col-xl-4 mx-auto mt-4 text-center">
+        <div className="row mx-auto">
+          <div className="col-12 col-xl-4 mx-auto mt-4">
             <a
               className="dropdown-toggle"
               href="#"
@@ -68,9 +68,9 @@ class CurrencyTables extends React.Component {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <h2 className="d-inline-block align-middle ml-4">
-                {baseCurrency}
-              </h2>
+              <h4 className="d-inline-block mx-auto">
+                Exchange rates for 1 {baseCurrency}
+              </h4>
             </a>
             <ul
               className="dropdown-menu dropdown-menu-start mt-2"
@@ -88,33 +88,20 @@ class CurrencyTables extends React.Component {
             </ul>
           </div>
         </div>
-        <div className="row">
-          <div className="col-6">
-            <ul>
-              {isLoading ? (
-                <h1>Loading...</h1>
-              ) : (
-                currencyCodes.map((codes, i) => (
-                  <CurrencyLists
-                    i={i}
-                    key={i}
-                    codes={codes}
-                    rate={this.state.rate.rates}
-                    baseCurrency={baseCurrency}
-                  />
-                ))
-              )}
-            </ul>
-          </div>
-          <div className="col-6">
-            <ul></ul>
-          </div>
-          <div className="col-6">
-            <ul></ul>
-          </div>
-          <div className="col-6">
-            <ul></ul>
-          </div>
+        <div className="row my-3">
+          {isLoading ? (
+            <h1>Loading...</h1>
+          ) : (
+            currencyCodes.map((codes, i) => (
+              <CurrencyLists
+                i={i}
+                key={i}
+                codes={codes}
+                rate={this.state.rate.rates}
+                baseCurrency={baseCurrency}
+              />
+            ))
+          )}
         </div>
       </div>
     );
