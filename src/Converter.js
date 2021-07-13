@@ -7,46 +7,20 @@ class Converter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currencies: [],
-      leftCurrency: "USD",
-      rightCurrency: "EUR",
       exchangeAmount: "",
-      rate: [],
       conversionResult: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.fetchCurrencies = this.fetchCurrencies.bind(this);
     this.dropdownSelectLeft = this.dropdownSelectLeft.bind(this);
     this.dropdownSelectRight = this.dropdownSelectRight.bind(this);
     this.swapCurrencies = this.swapCurrencies.bind(this);
-    this.fetchRates = this.fetchRates.bind(this);
     this.conversionCalculator = this.conversionCalculator.bind(this);
   }
 
   componentDidMount() {
-    this.fetchCurrencies();
-    this.fetchRates(this.state.leftCurrency); //initial fetch of rates
-  }
-
-  fetchCurrencies() {
-    fetch(`https://altexchangerateapi.herokuapp.com/currencies`)
-      .then(checkStatus)
-      .then(json)
-      .then((response) => {
-        this.setState({ currencies: response });
-      });
-  }
-
-  fetchRates(base) {
-    fetch(`https://altexchangerateapi.herokuapp.com/latest?from=${base}`)
-      .then(checkStatus)
-      .then(json)
-      .then((response) => {
-        this.setState({ rate: response });
-        console.log(response);
-        console.log(this.state.rate.rates);
-      });
+    this.props.fetchCurrencies();
+    this.props.fetchRates(this.props.leftCurrency); //initial fetch of rates
   }
 
   handleChange(event) {
@@ -57,7 +31,7 @@ class Converter extends React.Component {
         conversionResult: "",
       });
       return;
-    } else if (this.state.leftCurrency === this.state.rightCurrency) {
+    } else if (this.props.leftCurrency === this.props.rightCurrency) {
       this.setState({
         exchangeAmount: event.target.value,
         conversionResult: event.target.value,
@@ -65,7 +39,7 @@ class Converter extends React.Component {
     } else {
       const conversionResult = this.conversionCalculator(
         input,
-        this.state.rate.rates[this.state.rightCurrency]
+        this.props.rate.rates[this.props.rightCurrency]
       ).toFixed(3);
       this.setState({
         exchangeAmount: input,

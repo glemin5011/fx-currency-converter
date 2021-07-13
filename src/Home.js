@@ -4,6 +4,38 @@ import CurrencyTables from "./CurrencyTables";
 import "./Home.css";
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rate: [],
+      currencies: [],
+      leftCurrency: "USD",
+      rightCurrency: "EUR",
+    };
+    this.fetchCurrencies = this.fetchCurrencies.bind(this);
+    this.fetchRates = this.fetchRates.bind(this);
+  }
+
+  fetchCurrencies() {
+    fetch(`https://altexchangerateapi.herokuapp.com/currencies`)
+      .then(checkStatus)
+      .then(json)
+      .then((response) => {
+        this.setState({ currencies: response });
+      });
+  }
+
+  fetchRates(base) {
+    fetch(`https://altexchangerateapi.herokuapp.com/latest?from=${base}`)
+      .then(checkStatus)
+      .then(json)
+      .then((response) => {
+        this.setState({ rate: response });
+        console.log(response);
+        console.log(this.state.rate.rates);
+      });
+  }
+
   render() {
     return (
       <React.Fragment>
