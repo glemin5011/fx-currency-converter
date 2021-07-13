@@ -66,7 +66,7 @@ class Converter extends React.Component {
       const conversionResult = this.conversionCalculator(
         input,
         this.state.rate.rates[this.state.rightCurrency]
-      ).toFixed(3);
+      ).toFixed(2);
       this.setState({
         exchangeAmount: input,
         conversionResult,
@@ -198,10 +198,10 @@ class Converter extends React.Component {
             <div className="col-4 mx-auto my-2 text-center">
               <button
                 type="button"
-                className="btn btn-primary btn-xl-lg"
+                className="btn btn-lg btn-outline-dark"
                 onClick={this.swapCurrencies}
               >
-                Swap
+                <i className="fas fa-exchange-alt"></i>
               </button>
             </div>
           </div>
