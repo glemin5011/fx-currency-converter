@@ -124,7 +124,7 @@ class Converter extends React.Component {
           <div className="row">
             <div className="col-6 col-xl-4 mx-auto mt-4 text-center">
               <a
-                className="dropdown-toggle"
+                className=""
                 href="#"
                 role="button"
                 id="dropdownMenuLink"
@@ -138,9 +138,10 @@ class Converter extends React.Component {
                   }
                   className="currency-converter-icon d-inline"
                 ></img>
-                <h2 className="d-inline-block align-middle ml-4">
+                <h2 className="d-inline-block align-middle ms-2">
                   {leftCurrency}
                 </h2>
+                <i className="fas fa-chevron-down ms-2"></i>
               </a>
               <ul
                 className="dropdown-menu dropdown-menu-start mt-2"
@@ -160,7 +161,7 @@ class Converter extends React.Component {
 
             <div className="col-6 col-xl-4 mx-auto mt-4 text-center">
               <a
-                className="dropdown-toggle"
+                className=""
                 href="#"
                 role="button"
                 id="dropdownMenuLink"
@@ -174,9 +175,10 @@ class Converter extends React.Component {
                   }
                   className="currency-converter-icon d-inline"
                 ></img>
-                <h2 className="d-inline-block align-middle ml-2 text-center">
+                <h2 className="d-inline-block align-middle ms-2 text-center">
                   {rightCurrency}
                 </h2>
+                <i className="fas fa-chevron-down ms-2"></i>
               </a>
               <ul
                 className="dropdown-menu dropdown-menu-end mt-2"
@@ -211,6 +213,7 @@ class Converter extends React.Component {
                 className="form-control form-control-lg my-4"
                 type="number"
                 placeholder="1.00"
+                min="0"
                 onChange={this.handleChange}
                 value={this.state.exchangeAmount}
               />
