@@ -13,7 +13,6 @@ class CurrencyTables extends React.Component {
       isLoading: true,
     };
     this.dropdownSelect = this.dropdownSelect.bind(this);
-    this.fetchCurrencies = this.fetchCurrencies.bind(this);
     this.fetchRates = this.fetchRates.bind(this);
   }
 
@@ -28,20 +27,8 @@ class CurrencyTables extends React.Component {
       });
   }
 
-  //Do i need another API call for all currencies or do i pass down props from API call in Converter?
-  fetchCurrencies() {
-    fetch(`https://altexchangerateapi.herokuapp.com/currencies`)
-      .then(checkStatus)
-      .then(json)
-      .then((response) => {
-        this.setState({ currencies: response });
-        console.log(this.state.currencies);
-      });
-  }
-
   componentDidMount() {
     this.fetchRates(this.state.baseCurrency); //initial fetch of rates
-    this.fetchCurrencies();
   }
 
   dropdownSelect(event) {
@@ -51,7 +38,8 @@ class CurrencyTables extends React.Component {
   }
 
   render() {
-    const { currencies, baseCurrency, isLoading } = this.state;
+    const { baseCurrency, isLoading } = this.state;
+    const { currencies } = this.props;
     const currencyCodes = Object.keys(currencies);
     console.log(currencyCodes);
     const currencyNames = Object.values(currencies);

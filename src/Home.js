@@ -1,10 +1,35 @@
 import React from "react";
+import { json, checkStatus } from "./utils";
 import Converter from "./Converter";
 import CurrencyTables from "./CurrencyTables";
 import "./Home.css";
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currencies: [],
+    };
+
+    this.fetchCurrencies = this.fetchCurrencies.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchCurrencies();
+  }
+
+  fetchCurrencies() {
+    fetch(`https://altexchangerateapi.herokuapp.com/currencies`)
+      .then(checkStatus)
+      .then(json)
+      .then((response) => {
+        this.setState({ currencies: response });
+        console.log(this.state.currencies);
+      });
+  }
+
   render() {
+    const { currencies } = this.state;
     return (
       <React.Fragment>
         <div className="container my-2 py-2">
@@ -15,7 +40,7 @@ class Home extends React.Component {
               </h1>
             </div>
           </div>
-          <Converter />
+          <Converter currencies={currencies} />
         </div>
         <div className="container py-2 my-2">
           <div className="row">
@@ -24,7 +49,7 @@ class Home extends React.Component {
                 Daily coverage of <b>33 currencies.</b>
               </h1>
             </div>
-            <CurrencyTables />
+            <CurrencyTables currencies={currencies} />
           </div>
         </div>
       </React.Fragment>
