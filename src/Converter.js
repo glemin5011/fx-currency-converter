@@ -16,7 +16,6 @@ class Converter extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.fetchCurrencies = this.fetchCurrencies.bind(this);
     this.dropdownSelectLeft = this.dropdownSelectLeft.bind(this);
     this.dropdownSelectRight = this.dropdownSelectRight.bind(this);
     this.swapCurrencies = this.swapCurrencies.bind(this);
@@ -25,17 +24,7 @@ class Converter extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchCurrencies();
     this.fetchRates(this.state.leftCurrency); //initial fetch of rates
-  }
-
-  fetchCurrencies() {
-    fetch(`https://altexchangerateapi.herokuapp.com/currencies`)
-      .then(checkStatus)
-      .then(json)
-      .then((response) => {
-        this.setState({ currencies: response });
-      });
   }
 
   fetchRates(base) {
@@ -114,7 +103,8 @@ class Converter extends React.Component {
   }
 
   render() {
-    const { currencies, leftCurrency, rightCurrency } = this.state;
+    const { leftCurrency, rightCurrency } = this.state;
+    const { currencies } = this.props;
     const currencyCodes = Object.keys(currencies);
     const currencyNames = Object.values(currencies);
 
