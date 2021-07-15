@@ -79,7 +79,12 @@ class Converter extends React.Component {
       exchangeAmount: "",
       conversionResult: "",
     });
-    this.getHistoricalRates(leftCurrency, this.state.rightCurrency);
+
+    if (leftCurrency !== this.state.rightCurrency) {
+      this.getHistoricalRates(leftCurrency, this.state.rightCurrency);
+    } else {
+      this.chart.destroy();
+    }
   }
 
   dropdownSelectRight(event) {
@@ -94,7 +99,12 @@ class Converter extends React.Component {
       exchangeAmount,
       conversionResult,
     });
-    this.getHistoricalRates(this.state.leftCurrency, rightCurrency);
+
+    if (this.state.leftCurrency !== rightCurrency) {
+      this.getHistoricalRates(this.state.leftCurrency, rightCurrency);
+    } else {
+      this.chart.destroy();
+    }
   }
   swapCurrencies() {
     let { newRight, newLeft } = "";
@@ -108,7 +118,11 @@ class Converter extends React.Component {
       conversionResult: "",
     });
     this.fetchRates(newLeft);
-    this.getHistoricalRates(newLeft, newRight);
+    if (newLeft !== newRight) {
+      this.getHistoricalRates(newLeft, newRight);
+    } else {
+      this.chart.destroy();
+    }
   }
 
   getHistoricalRates = (base, quote) => {
@@ -276,8 +290,8 @@ class Converter extends React.Component {
               />
             </div>
           </div>
-          <div className="row">
-            <canvas ref={this.chartRef} />
+          <div className="row my-2">
+            <canvas className="my-2 py-2" ref={this.chartRef} />
           </div>
         </div>
       </React.Fragment>
