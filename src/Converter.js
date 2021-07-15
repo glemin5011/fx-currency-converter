@@ -2,6 +2,7 @@ import React from "react";
 import { eventListeners } from "@popperjs/core";
 import { json, checkStatus } from "./utils";
 import Currencies from "./Currencies";
+import Chart from "chart.js/auto";
 
 class Converter extends React.Component {
   constructor(props) {
@@ -21,10 +22,13 @@ class Converter extends React.Component {
     this.swapCurrencies = this.swapCurrencies.bind(this);
     this.fetchRates = this.fetchRates.bind(this);
     this.conversionCalculator = this.conversionCalculator.bind(this);
+    this.chartRef = React.createRef();
   }
 
   componentDidMount() {
-    this.fetchRates(this.state.leftCurrency); //initial fetch of rates
+    const { leftCurrency, rightCurrency } = this.state;
+    this.fetchRates(leftCurrency); //initial fetch of rates
+    this.getHistoricalRates(leftCurrency, rightCurrency);
   }
 
   fetchRates(base) {
@@ -68,15 +72,23 @@ class Converter extends React.Component {
   }
 
   dropdownSelectLeft(event) {
+    const leftCurrency = event.target.value;
     this.setState({ leftCurrency: event.target.value });
     this.fetchRates(event.target.value); // API call for all rates to base currency
     this.setState({
       exchangeAmount: "",
       conversionResult: "",
     });
+
+    if (leftCurrency !== this.state.rightCurrency) {
+      this.getHistoricalRates(leftCurrency, this.state.rightCurrency);
+    } else {
+      this.chart.destroy();
+    }
   }
 
   dropdownSelectRight(event) {
+    const rightCurrency = event.target.value;
     const { exchangeAmount } = this.state;
     this.setState({ rightCurrency: event.target.value });
     const conversionResult = this.conversionCalculator(
@@ -87,6 +99,12 @@ class Converter extends React.Component {
       exchangeAmount,
       conversionResult,
     });
+
+    if (this.state.leftCurrency !== rightCurrency) {
+      this.getHistoricalRates(this.state.leftCurrency, rightCurrency);
+    } else {
+      this.chart.destroy();
+    }
   }
   swapCurrencies() {
     let { newRight, newLeft } = "";
@@ -100,7 +118,61 @@ class Converter extends React.Component {
       conversionResult: "",
     });
     this.fetchRates(newLeft);
+    if (newLeft !== newRight) {
+      this.getHistoricalRates(newLeft, newRight);
+    } else {
+      this.chart.destroy();
+    }
   }
+
+  getHistoricalRates = (base, quote) => {
+    const endDate = new Date().toISOString().split("T")[0];
+    const startDate = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0];
+
+    fetch(
+      `https://altexchangerateapi.herokuapp.com/${startDate}..${endDate}?from=${base}&to=${quote}`
+    )
+      .then(checkStatus)
+      .then(json)
+      .then((data) => {
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        const chartLabels = Object.keys(data.rates);
+        const chartData = Object.values(data.rates).map((rate) => rate[quote]);
+        const chartLabel = `${base} / ${quote}`;
+        this.buildChart(chartLabels, chartData, chartLabel);
+      })
+      .catch((error) => console.error(error.message));
+  };
+
+  buildChart = (labels, data, label) => {
+    const chartRef = this.chartRef.current.getContext("2d");
+
+    if (typeof this.chart !== "undefined") {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart(this.chartRef.current.getContext("2d"), {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: label,
+            data,
+            fill: false,
+            tension: 0,
+          },
+        ],
+      },
+      options: {
+        response: true,
+      },
+    });
+  };
 
   render() {
     const { leftCurrency, rightCurrency } = this.state;
@@ -217,6 +289,9 @@ class Converter extends React.Component {
                 readOnly={true}
               />
             </div>
+          </div>
+          <div className="row my-2">
+            <canvas className="my-2 py-2" ref={this.chartRef} />
           </div>
         </div>
       </React.Fragment>
